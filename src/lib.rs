@@ -5,11 +5,13 @@ use serde::{
     Serialize,
 };
 
+pub mod value;
+
 #[derive(PestParser)]
 #[grammar = "grammar.pest"]
 pub struct Parser;
 
-pub struct ConfigPair<'a>(Pair<'a, Rule>);
+pub struct LuaPestPair<'a>(Pair<'a, Rule>);
 
 #[cfg(debug_assertions)]
 fn print_pair(pair: &Pair<Rule>, depth: usize) {
@@ -28,7 +30,7 @@ fn print_pair(pair: &Pair<Rule>, depth: usize) {
     }
 }
 
-impl<'config> ConfigPair<'config> {
+impl<'config> LuaPestPair<'config> {
     #[allow(clippy::should_implement_trait)]
     pub fn from_str(src: &'config str) -> Result<Self, Box<PestError<Rule>>> {
         let result = Parser::parse(Rule::chunk, src);
@@ -49,7 +51,7 @@ impl<'config> ConfigPair<'config> {
     }
 }
 
-impl<'config> Serialize for ConfigPair<'config> {
+impl<'config> Serialize for LuaPestPair<'config> {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: serde::Serializer,
@@ -69,7 +71,7 @@ impl<'config> Serialize for ConfigPair<'config> {
 
                     let value = field_inner.next().unwrap();
 
-                    seq.serialize_element(&ConfigPair::from_pair(value))?;
+                    seq.serialize_element(&LuaPestPair::from_pair(value))?;
                 }
 
                 seq.end()
@@ -88,8 +90,8 @@ impl<'config> Serialize for ConfigPair<'config> {
                     let value = field_inner.next().unwrap();
 
                     map.serialize_entry(
-                        &ConfigPair::from_pair(key),
-                        &ConfigPair::from_pair(value),
+                        &LuaPestPair::from_pair(key),
+                        &LuaPestPair::from_pair(value),
                     )?;
                 }
 

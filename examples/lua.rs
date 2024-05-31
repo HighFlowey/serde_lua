@@ -1,4 +1,4 @@
-use serde_lua::LuaPestPair;
+use serde_lua::{value::IntoSerdeLua, LuaPestPair};
 
 const SRC: &str = include_str!(".project.luau");
 
@@ -7,7 +7,7 @@ fn main() {
 
     match result {
         Ok(config) => {
-            println!("{}", serde_json::to_string_pretty(&config).unwrap());
+            println!("{:#?}", config.into_serde_lua());
         }
         Err(err) => println!("{err}"),
     }

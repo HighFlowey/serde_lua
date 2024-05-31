@@ -9,5 +9,5 @@ pest_derive = "2.7.10"
 serde = "1.0.203"
 
 [dev-dependencies]
-## TESTING
 serde_json = "1.0.117"
+serde_derive = "*"

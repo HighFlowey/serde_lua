@@ -7,10 +7,10 @@ ident = { ASCII_ALPHA+ }
 array = { "{" ~ array_fieldlist? ~ "}" }
 dict = { "{" ~ dict_fieldlist? ~ "}" }
 
-number = _{ binary_expr? ~ (float | int) }
-binary_expr = { "-" }
-float = ${ int ~ "." ~ NUMBER+ }
-int = ${ NUMBER+ }
+number = _{  float | int }
+float = ${ binary_expr? ~ int ~ "." ~ NUMBER+ }
+int = ${ binary_expr? ~ NUMBER+ }
+binary_expr = _{ "-" }
 
 boolean = ${ "true" | "false" }
 string = ${ "\"" ~ (!("\"" | NEWLINE | "\r") ~ ANY)* ~ "\"" | "'" ~ (!("'" | NEWLINE | "\r") ~ ANY)* ~ "'" }

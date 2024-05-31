@@ -187,6 +187,7 @@ dependencies = [
  "pest",
  "pest_derive",
  "serde",
+ "serde_derive",
  "serde_json",
 ]
 
