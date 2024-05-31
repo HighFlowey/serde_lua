@@ -7,6 +7,9 @@ use serde::{
 
 pub mod value;
 
+#[cfg(test)]
+mod test;
+
 #[derive(PestParser)]
 #[grammar = "grammar.pest"]
 pub struct Parser;

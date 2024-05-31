@@ -60,7 +60,7 @@ impl<'config> IntoSerdeLua<'config> for LuaPestPair<'config> {
             }
             Rule::boolean => LuaValue::Boolean(pair.as_str() == "true"),
             Rule::nil => LuaValue::Nil,
-            Rule::ident => LuaValue::String(pair.as_str()),
+            Rule::ident => LuaValue::String(pair.as_str().trim()),
             _ => unimplemented!("{pair}"),
         }
     }

@@ -42,7 +42,7 @@ multi line comments dont account for how many equal signs you use at the opening
 ## TO-DO(s)
 
 - [ ] impl serde::Deserializer
-- [ ] write tests
+- [X] write tests
 - [ ] impl serde::Deserialize
 - [ ] documentation
 - [ ] grammar rule for tuples
