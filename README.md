@@ -41,6 +41,7 @@ multi line comments dont account for how many equal signs you use at the opening
 
 ## TO-DO(s)
 
+- [ ] impl serde::Deserializer
 - [ ] write tests
 - [ ] impl serde::Deserialize
 - [ ] documentation
