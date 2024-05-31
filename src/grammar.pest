@@ -1,0 +1,37 @@
+chunk = _{ SOI ~ return ~ EOI }
+return = _{ "return" ~ exp }
+
+exp = _{ array | dict | number | string | boolean | nil }
+
+ident = { ASCII_ALPHA+ }
+array = { "{" ~ array_fieldlist? ~ "}" }
+dict = { "{" ~ dict_fieldlist? ~ "}" }
+
+number = _{ binary_expr? ~ (float | int) }
+binary_expr = { "-" }
+float = ${ int ~ "." ~ NUMBER+ }
+int = ${ NUMBER+ }
+
+boolean = ${ "true" | "false" }
+string = ${ "\"" ~ (!("\"" | NEWLINE | "\r") ~ ANY)* ~ "\"" | "'" ~ (!("'" | NEWLINE | "\r") ~ ANY)* ~ "'" }
+nil = ${ "nil" }
+
+array_fieldlist = _{ array_field ~ (fieldsep ~ array_field)* ~ fieldsep? }
+dict_fieldlist = _{ dict_field ~ (fieldsep ~ dict_field)* ~ fieldsep? }
+
+array_field = { exp }
+dict_field = {
+    "[" ~ exp ~ "]" ~ "=" ~ exp
+    | ident ~ "=" ~ exp
+}
+
+fieldsep = _{ "," | ";" }
+
+WHITESPACE = _{ WHITE_SPACE }
+COMMENT = _{ multi_line_comment | single_line_comment }
+
+single_line_comment = _{ "--" ~ (!NEWLINE ~ ANY)* }
+
+// things like --[===[  ]=] wont syntax error
+multi_line_comment = _{ "--[" ~ "="* ~ "[" ~ (!multi_line_closing ~ ANY)* ~ multi_line_closing }
+multi_line_closing = _{ "]" ~ "="* ~ "]" }

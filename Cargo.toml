@@ -1,0 +1,13 @@
+[package]
+name = "serde_lua"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+pest = "2.7.10"
+pest_derive = "2.7.10"
+serde = "1.0.203"
+
+[dev-dependencies]
+## TESTING
+serde_json = "1.0.117"
