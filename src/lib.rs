@@ -52,6 +52,11 @@ impl<'config> LuaPestPair<'config> {
     pub fn print_pretty(&self) {
         print_pair(&self.0, 0)
     }
+
+    // Temp workaround for not having Deserializer implemented
+    pub fn into_serde_json(self) -> Result<serde_json::Value, serde_json::Error> {
+        serde_json::to_value(self)
+    }
 }
 
 impl<'config> Serialize for LuaPestPair<'config> {
@@ -121,7 +126,7 @@ impl<'config> Serialize for LuaPestPair<'config> {
             }
             Rule::boolean => serializer.serialize_bool(pair.as_str() == "true"),
             Rule::nil => serializer.serialize_none(),
-            Rule::ident => serializer.serialize_str(pair.as_str()),
+            Rule::ident => serializer.serialize_str(pair.as_str().trim()),
             _ => unimplemented!("{pair}"),
         }
     }

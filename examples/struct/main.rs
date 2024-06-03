@@ -1,5 +1,6 @@
 // TODO
 
+use serde::Deserialize;
 use serde_derive::Deserialize;
 use serde_lua::LuaPestPair;
 
@@ -16,12 +17,10 @@ fn main() {
     let result = LuaPestPair::from_str(SRC);
 
     match result {
-        Ok(_config) => {
-            // let vector2 = Vector2::deserialize(config).unwrap();
-
-            // println!("{vector2:#?}");
-
-            todo!()
+        Ok(config) => {
+            let json = config.into_serde_json().unwrap();
+            let vector2 = Vector2::deserialize(json).unwrap();
+            println!("{vector2:#?}");
         }
         Err(err) => println!("{err}"),
     }

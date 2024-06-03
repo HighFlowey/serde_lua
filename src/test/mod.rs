@@ -1,5 +1,7 @@
 use std::collections::HashMap;
 
+use serde::Deserialize;
+
 use crate::{
     value::{IntoSerdeLua, LuaValue},
     LuaPestPair,
@@ -88,4 +90,47 @@ fn return_dictionary() {
         .into_serde_lua();
 
     assert_eq!(lhs, rhs);
+}
+
+#[test]
+fn deserialize() {
+    #[allow(dead_code)]
+    #[derive(Debug, serde_derive::Deserialize, PartialEq)]
+    struct Vector2 {
+        x: f64,
+        y: f64,
+    }
+
+    let json = LuaPestPair::from_str("return { x = 50, y = 100 }")
+        .unwrap()
+        .into_serde_json()
+        .unwrap();
+
+    let lhs = Vector2 { x: 50.0, y: 100.0 };
+    let rhs = Vector2::deserialize(json).unwrap();
+
+    assert_eq!(lhs, rhs);
+}
+
+#[test]
+fn fail_case1() {
+    let lhs = LuaValue::Int(3000);
+    let rhs = LuaPestPair::from_str("return 1000")
+        .unwrap()
+        .into_serde_lua();
+
+    assert!(lhs != rhs);
+}
+
+#[test]
+fn fail_case2() {
+    let mut hashmap = HashMap::new();
+    hashmap.insert(LuaValue::String("ident"), LuaValue::Nil);
+
+    let lhs = LuaValue::Dict(hashmap);
+    let rhs = LuaPestPair::from_str("return { ident = \"cool\" }")
+        .unwrap()
+        .into_serde_lua();
+
+    assert!(lhs != rhs);
 }

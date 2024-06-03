@@ -7,7 +7,7 @@ edition = "2021"
 pest = "2.7.10"
 pest_derive = "2.7.10"
 serde = "1.0.203"
+serde_json = "1.0.117"
 
 [dev-dependencies]
-serde_json = "1.0.117"
 serde_derive = "*"
