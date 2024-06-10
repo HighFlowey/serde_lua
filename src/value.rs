@@ -56,7 +56,7 @@ impl<'config> IntoSerdeLua<'config> for LuaPestPair<'config> {
             },
             Rule::string => {
                 let _raw = pair.as_str();
-                let value = _raw.starts_with('"') {
+                let value = if _raw.starts_with('"') {
                     _raw.trim_matches('"')
                 } else {
                     _raw.trim_matches('\'')
