@@ -56,6 +56,16 @@ fn return_negative_float() {
 }
 
 #[test]
+fn return_string() {
+    let lhs = LuaValue::String("\"cool\"");
+    let rhs = LuaPestPair::from_str("return '\"cool\"'")
+        .unwrap()
+        .into_serde_lua();
+
+    assert_eq!(lhs, rhs);
+}
+
+#[test]
 fn return_array() {
     let lhs = LuaValue::Array(vec![LuaValue::Int(1), LuaValue::Int(6), LuaValue::Int(10)]);
     let rhs = LuaPestPair::from_str("return { 1, 6, 10 }")
