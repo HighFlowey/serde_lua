@@ -55,7 +55,13 @@ impl<'config> IntoSerdeLua<'config> for LuaPestPair<'config> {
                 Err(err) => panic!("{err}"),
             },
             Rule::string => {
-                let value = pair.as_str().trim_matches('\'').trim_matches('"');
+                let _raw = pair.as_str();
+                let value = _raw.starts_with('"') {
+                    _raw.trim_matches('"')
+                } else {
+                    _raw.trim_matches('\'')
+                };
+                
                 LuaValue::String(value)
             }
             Rule::boolean => LuaValue::Boolean(pair.as_str() == "true"),
